@@ -1,7 +1,25 @@
 package jar.bytebite;
 
 
+import com.github.britooo.looca.api.core.Looca;
+import com.github.britooo.looca.api.group.discos.Disco;
+import com.github.britooo.looca.api.group.discos.DiscoGrupo;
+import com.github.britooo.looca.api.group.discos.Volume;
+import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
+import com.github.britooo.looca.api.group.janelas.Janela;
+import com.github.britooo.looca.api.group.janelas.JanelaGrupo;
+import com.github.britooo.looca.api.group.memoria.Memoria;
+import com.github.britooo.looca.api.group.processador.Processador;
+import com.github.britooo.looca.api.group.processos.ProcessoGrupo;
+import com.github.britooo.looca.api.group.rede.Rede;
+import com.github.britooo.looca.api.group.servicos.ServicoGrupo;
+import com.github.britooo.looca.api.group.sistema.Sistema;
+import com.github.britooo.looca.api.group.temperatura.Temperatura;
 import java.awt.Color;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -140,6 +158,81 @@ public class Login extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+//        Instãncias
+        Conexao conexao = new Conexao();
+        JdbcTemplate con = conexao.getConnection();
+        Looca looca = new Looca(); 
+        
+//        Falta frequencia maxima do processador
+        Sistema sistema = looca.getSistema();
+        Memoria memoria = looca.getMemoria();
+        DiscoGrupo discoGrupo = looca.getGrupoDeDiscos();
+        JanelaGrupo janelaGrupo = looca.getGrupoDeJanelas();
+        Temperatura temperatura = looca.getTemperatura();
+        DiscoGrupo grupoDeDiscos = looca.getGrupoDeDiscos();
+        List<Disco> discos = grupoDeDiscos.getDiscos();
+             
+        double scale = Math.pow(10, 2);
+        
+//        Processador
+        Double frequenciaUsoCpu= Double.valueOf(looca.getProcessador().getFrequencia());
+        frequenciaUsoCpu = frequenciaUsoCpu / 1000000000.00; 
+        
+        Double temperaturaCpu = temperatura.getTemperatura();
+
+//        Memória Ram
+        Long longMemoriaD = memoria.getDisponivel();
+        double d = longMemoriaD.doubleValue();
+        Double memoriaDisponivelBites = d /(1024*1024*1024);
+        double ramDisponivel = Math.round(memoriaDisponivelBites*scale)/scale;
+
+        Long longMemoriaU = memoria.getEmUso();
+        double u = longMemoriaU.doubleValue();
+        Double memoriaEmUsoBites = u / (1024*1024*1024);
+        double ramEmUso = Math.round(memoriaEmUsoBites*scale)/scale;
+        
+        Double ramTotalSemFormatar = Double.valueOf(looca.getMemoria().getTotal());
+        ramTotalSemFormatar = ramTotalSemFormatar / 1073141824.00;
+        Double ramTotal = Math.round(ramTotalSemFormatar*scale)/scale;
+        
+//        Janelas
+        Integer janelasTotal = looca.getGrupoDeJanelas().getTotalJanelas();
+
+//        Armazenamento
+        Long longArmazenamento = discoGrupo.getTamanhoTotal();
+        double a = longArmazenamento.doubleValue();
+        Double armazenamentoBites = a / (1024*1024*1024);
+        double armazenamentoTotal = Math.round(armazenamentoBites*scale)/scale;
+        
+//        Long longArmazenamentoEmUso = discoGrupo.getDiscos().get(0).getBytesDeLeitura();
+//        double aEmUso = longArmazenamentoEmUso.doubleValue();
+//        Double armazenamentoEmUsoBites = aEmUso / (1024*1024*1024);
+//        double armazenamentoEmUso = Math.round(armazenamentoEmUsoBites*scale)/scale;
+        Double armazenamentoEmUsoSemFormatar = Double.valueOf(discoGrupo.getDiscos().get(0).getBytesDeLeitura());
+        armazenamentoEmUsoSemFormatar = armazenamentoEmUsoSemFormatar / 100000000.00 - armazenamentoTotal;
+        Double armazenamentoEmUso = Math.round(armazenamentoEmUsoSemFormatar*scale)/scale;
+        
+        
+        System.out.println(sistema.toString());
+        System.out.println("Processador Uso:");
+        System.out.println(frequenciaUsoCpu);
+        System.out.println("Temperatura processador:");
+        System.out.println(temperaturaCpu);
+        System.out.println("Memória RAM total/disponivel/uso:");
+        System.out.println(ramTotal);
+        System.out.println(ramDisponivel);
+        System.out.println(ramEmUso);
+        System.out.println("Total janelas:");
+        System.out.println(janelasTotal);
+        System.out.println("Armazenamento total/disponivel");
+        System.out.println(armazenamentoTotal);
+        System.out.println(armazenamentoEmUso);
+        
+        
+//        Inserindo no Banco
+//                con.update("insert into hardware values(?, ?, ?, ?, ?, ?, ?);",
+//                        null, null, null, null, null, null, null);
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
