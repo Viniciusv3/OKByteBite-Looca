@@ -230,8 +230,8 @@ public class Login extends javax.swing.JFrame {
         
         
 //        Inserindo no Banco
-//                con.update("insert into hardware values(?, ?, ?, ?, ?, ?, ?);",
-//                        null, null, null, null, null, null, null);
+                con.update("insert into hardware values(?, ?, ?, ?, ?, ?, ?);",
+                        null, null, null, null, null, null, null);
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

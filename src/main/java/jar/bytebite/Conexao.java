@@ -32,14 +32,15 @@ public class Conexao {
     public Conexao() {
         BasicDataSource dataSource = new BasicDataSource();
 
-        dataSource​.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource​.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-        dataSource​.setUrl("jdbc:mysql://localhost/bytebite");
+        dataSource​.setUrl("jdbc:sqlserver://server-bytebite.database.windows.net:1433;database=bd-bytebite;encryp\n" +
+"t=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
 
 
-        dataSource​.setUsername("root");
+        dataSource​.setUsername(" admin-bytebite");
 
-        dataSource​.setPassword("#Gf39335998818");  
+        dataSource​.setPassword("#Gfgrupo9");
 
         this.connection = new JdbcTemplate(dataSource);
     }
