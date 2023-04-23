@@ -1,7 +1,11 @@
 package jar.bytebite;
 
-
 import java.awt.Color;
+import java.util.Map;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.dao.EmptyResultDataAccessException;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -13,12 +17,31 @@ import java.awt.Color;
  */
 public class Login extends javax.swing.JFrame {
 
+    Conexao conexao = new Conexao();
+    JdbcTemplate con = conexao.getConnection();
+    Captura captura = new Captura();
+
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
         getContentPane().setBackground(Color.gray);
+    }
+
+    public Map<String, Object> selectLogin(String email, String senha) {
+        TelaExemplo tela = new TelaExemplo();
+        try {
+            Map<String, Object> registro = con.queryForMap(
+                    "select * from empresa where email = ? and senha = ?", email, senha);
+            System.out.println("Login realizado com sucesso.");
+            this.setVisible(false);
+            tela.setVisible(true);
+            captura.mostrarDados();
+            return registro;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     /**
@@ -128,9 +151,9 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TelaExemplo tela = new TelaExemplo();
-        this.setVisible(false);
-        tela.setVisible(true);
+        String email = jTextField1.getText();
+        String senha = jTextField2.getText();
+        selectLogin(email, senha);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
@@ -141,7 +164,7 @@ public class Login extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

@@ -39,7 +39,7 @@ public class Conexao {
 "t=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
 
 
-        dataSource​.setUsername(" admin-bytebite");
+        dataSource​.setUsername("admin-bytebite");
 
         dataSource​.setPassword("#Gfgrupo9");
 
