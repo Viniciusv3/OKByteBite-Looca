@@ -37,7 +37,8 @@ public class Captura {
  //        Processador
          Double porcUsoCpu = cpu.getUso();
         
-        Double temperaturaCpu = temperatura.getTemperatura();
+//        Double temperaturaCpu = temperatura.getTemperatura();
+        Double temperaturaCpu = (Math.random()* 20)+45;
 
 //        Memória Ram
         Long longMemoriaD = memoria.getDisponivel();

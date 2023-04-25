@@ -30,7 +30,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     public Map<String, Object> selectLogin(String email, String senha) {
-        TelaExemplo tela = new TelaExemplo();
+        PosLogin tela = new PosLogin();
         try {
             Map<String, Object> registro = con.queryForMap(
                     "select * from empresa where email = ? and senha = ?", email, senha);
@@ -38,6 +38,7 @@ public class Login extends javax.swing.JFrame {
             this.setVisible(false);
             tela.setVisible(true);
             captura.mostrarDados();
+            tela.especificacoes();
             return registro;
         } catch (EmptyResultDataAccessException e) {
             return null;
