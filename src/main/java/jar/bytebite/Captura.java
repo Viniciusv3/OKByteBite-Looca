@@ -17,63 +17,58 @@ import java.util.TimerTask;
  * @author ViniciusJesus
  */
 public class Captura {
-    
-    public void mostrarDados(){
-         //        Instãncias
-        Looca looca = new Looca(); 
-        
+
+    public void mostrarDados() {
+        //        Instãncias
+        Looca looca = new Looca();
+
         Sistema sistema = looca.getSistema();
         Memoria memoria = looca.getMemoria();
         Processador cpu = looca.getProcessador();
         DiscoGrupo discoGrupo = looca.getGrupoDeDiscos();
         Temperatura temperatura = looca.getTemperatura();
-             
+
         double scale = Math.pow(10, 2);
-        
-         System.out.println(sistema.toString());
-        new Timer().scheduleAtFixedRate(new TimerTask() {
- @Override
- public void run() {
- //        Processador
-         Double porcUsoCpu = cpu.getUso();
-        
+
+        System.out.println(sistema.toString());
+        //        Processador
+        Double porcUsoCpu = cpu.getUso();
+
 //        Double temperaturaCpu = temperatura.getTemperatura();
-        Double temperaturaCpu = (Math.random()* 20)+45;
+        Double temperaturaCpu = (Math.random() * 20) + 45;
 
 //        Memória Ram
         Long longMemoriaD = memoria.getDisponivel();
         double d = longMemoriaD.doubleValue();
-        Double memoriaDisponivelBites = d /(1024*1024*1024);
-        double ramDisponivel = Math.round(memoriaDisponivelBites*scale)/scale;
+        Double memoriaDisponivelBites = d / (1024 * 1024 * 1024);
+        double ramDisponivel = Math.round(memoriaDisponivelBites * scale) / scale;
 
         Long longMemoriaU = memoria.getEmUso();
         double u = longMemoriaU.doubleValue();
-        Double memoriaEmUsoBites = u / (1024*1024*1024);
-        double ramEmUso = Math.round(memoriaEmUsoBites*scale)/scale;
-        
+        Double memoriaEmUsoBites = u / (1024 * 1024 * 1024);
+        double ramEmUso = Math.round(memoriaEmUsoBites * scale) / scale;
+
         Double ramTotalSemFormatar = Double.valueOf(looca.getMemoria().getTotal());
         ramTotalSemFormatar = ramTotalSemFormatar / 1073141824.00;
-        Double ramTotal = Math.round(ramTotalSemFormatar*scale)/scale;
-        
+        Double ramTotal = Math.round(ramTotalSemFormatar * scale) / scale;
+
 //        Janelas
         Integer janelasTotal = looca.getGrupoDeJanelas().getTotalJanelas();
 
 //        Armazenamento
         Long longArmazenamento = discoGrupo.getTamanhoTotal();
         double a = longArmazenamento.doubleValue();
-        Double armazenamentoBites = a / (1024*1024*1024);
-        double armazenamentoTotal = Math.round(armazenamentoBites*scale)/scale;
-        
+        Double armazenamentoBites = a / (1024 * 1024 * 1024);
+        double armazenamentoTotal = Math.round(armazenamentoBites * scale) / scale;
+
 //        Long longArmazenamentoEmUso = discoGrupo.getDiscos().get(0).getBytesDeLeitura();
 //        double aEmUso = longArmazenamentoEmUso.doubleValue();
 //        Double armazenamentoEmUsoBites = aEmUso / (1024*1024*1024);
 //        double armazenamentoEmUso = Math.round(armazenamentoEmUsoBites*scale)/scale;
-
-
         Double armazenamentoEmUsoSemFormatar = Double.valueOf(discoGrupo.getDiscos().get(0).getBytesDeLeitura());
         armazenamentoEmUsoSemFormatar = armazenamentoEmUsoSemFormatar / 1000000000.00;
-        Double armazenamentoEmUso = Math.round(armazenamentoEmUsoSemFormatar*scale)/scale;
-        
+        Double armazenamentoEmUso = Math.round(armazenamentoEmUsoSemFormatar * scale) / scale;
+
         System.out.println("Processador Uso:");
         System.out.println(porcUsoCpu);
         System.out.println("Temperatura processador:");
@@ -87,8 +82,5 @@ public class Captura {
         System.out.println("Armazenamento total/emUso");
         System.out.println(armazenamentoTotal);
         System.out.println(armazenamentoEmUso);
- } 
-}, 0, 5000);
-
     }
 }

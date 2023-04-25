@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b0e3271d-488f-4641-90a7-a2e333c9f952" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/jar/bytebite/Captura.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jar/bytebite/Captura.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jar/bytebite/Login.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jar/bytebite/Login.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jar/bytebite/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jar/bytebite/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jar/bytebite/PosLogin.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jar/bytebite/PosLogin.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jar/bytebite/PosLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jar/bytebite/PosLogin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/LoginByteBite-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/LoginByteBite-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/LoginByteBite-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/LoginByteBite-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jar/bytebite/Captura.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/jar/bytebite/Captura.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jar/bytebite/Login$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/jar/bytebite/Login$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jar/bytebite/Login$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/jar/bytebite/Login$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jar/bytebite/Login$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/jar/bytebite/Login$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jar/bytebite/Login$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/jar/bytebite/Login$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jar/bytebite/Login$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/jar/bytebite/Login$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jar/bytebite/Login$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/jar/bytebite/Login$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jar/bytebite/Login.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/jar/bytebite/Login.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jar/bytebite/PosLogin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/jar/bytebite/PosLogin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2OtnAvLVm0aZ1YeMt0LcotgsrSr" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/Lucas/Documents/BybteBite-Looca"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="BybteBite-Looca" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="BybteBite-Looca" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b0e3271d-488f-4641-90a7-a2e333c9f952" name="Changes" comment="" />
+      <created>1682388606382</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1682388606382</updated>
+    </task>
+    <servers />
+  </component>
+</project>

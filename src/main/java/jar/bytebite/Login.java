@@ -2,6 +2,8 @@ package jar.bytebite;
 
 import java.awt.Color;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,7 +12,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author 55119
@@ -29,20 +30,22 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setBackground(Color.gray);
     }
 
-    public Map<String, Object> selectLogin(String email, String senha) {
-        PosLogin tela = new PosLogin();
+    public Boolean selectLogin(String email, String senha) {
         try {
             Map<String, Object> registro = con.queryForMap(
                     "select * from empresa where email = ? and senha = ?", email, senha);
             System.out.println("Login realizado com sucesso.");
-            this.setVisible(false);
-            tela.setVisible(true);
-            captura.mostrarDados();
-            tela.especificacoes();
-            return registro;
+            return true;
         } catch (EmptyResultDataAccessException e) {
-            return null;
+            return false;
         }
+    }
+
+    public void nextScreen() {
+        PosLogin tela = new PosLogin();
+        this.setVisible(false);
+        tela.setVisible(true);
+        tela.especificacoes();
     }
 
     /**
@@ -154,7 +157,16 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String email = jTextField1.getText();
         String senha = jTextField2.getText();
-        selectLogin(email, senha);
+        if (selectLogin(email, senha)) {
+            nextScreen();
+            new Timer().scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    captura.mostrarDados();
+                }
+            }, 0, 5000);
+
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
@@ -191,6 +203,7 @@ public class Login extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Login().setVisible(true);
             }
