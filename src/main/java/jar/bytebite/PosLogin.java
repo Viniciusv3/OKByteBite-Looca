@@ -5,6 +5,7 @@
 package jar.bytebite;
 
 import com.github.britooo.looca.api.core.Looca;
+import java.awt.Color;
 
 /**
  *
@@ -17,6 +18,7 @@ public class PosLogin extends javax.swing.JFrame {
      */
     public PosLogin() {
         initComponents();
+        getContentPane().setBackground(Color.gray);
     }
     
     public void especificacoes(){

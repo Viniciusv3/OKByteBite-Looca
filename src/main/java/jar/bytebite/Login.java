@@ -160,6 +160,7 @@ public class Login extends javax.swing.JFrame {
         String senha = jTextField2.getText();
         if (selectLogin(email, senha)) {
             nextScreen();
+            captura.mostrarInfoSistema();
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {

@@ -18,19 +18,15 @@ import java.util.TimerTask;
  */
 public class Captura {
 
+    Looca looca = new Looca();
+    Sistema sistema = looca.getSistema();
+    Memoria memoria = looca.getMemoria();
+    Processador cpu = looca.getProcessador();
+    DiscoGrupo discoGrupo = looca.getGrupoDeDiscos();
+    Temperatura temperatura = looca.getTemperatura();
+    double scale = Math.pow(10, 2);
+
     public void mostrarDados() {
-        //        Instãncias
-        Looca looca = new Looca();
-
-        Sistema sistema = looca.getSistema();
-        Memoria memoria = looca.getMemoria();
-        Processador cpu = looca.getProcessador();
-        DiscoGrupo discoGrupo = looca.getGrupoDeDiscos();
-        Temperatura temperatura = looca.getTemperatura();
-
-        double scale = Math.pow(10, 2);
-
-        System.out.println(sistema.toString());
         //        Processador
         Double porcUsoCpu = cpu.getUso();
 
@@ -82,5 +78,10 @@ public class Captura {
         System.out.println("Armazenamento total/emUso");
         System.out.println(armazenamentoTotal);
         System.out.println(armazenamentoEmUso);
+    }
+
+    public void mostrarInfoSistema() {
+
+        System.out.println(sistema.toString());
     }
 }
