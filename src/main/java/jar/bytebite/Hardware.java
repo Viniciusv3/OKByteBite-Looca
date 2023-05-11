@@ -11,11 +11,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author ViniciusJesus
  */
 public class Hardware {
+    
     Conexao conexao = new Conexao();
     JdbcTemplate con = conexao.getConnection();
     void inserirDados(){
         try{
-                con.update("insert into log.hardware values(?, ?, ?, ?, ?, ?, ?);",
+                con.update("insert into logHardware values(?, ?, ?, ?, ?);",
                         null, null, null, null, null, null, null);
         
         }catch(Exception e){
