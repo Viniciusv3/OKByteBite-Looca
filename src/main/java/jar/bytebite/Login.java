@@ -1,6 +1,7 @@
 package jar.bytebite;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,6 +22,8 @@ public class Login extends javax.swing.JFrame {
     Conexao conexao = new Conexao();
     JdbcTemplate con = conexao.getConnection();
     Captura captura = new Captura();
+    Integer fkConfig;
+    Componente comp = new Componente();
 
     /**
      * Creates new form Login
@@ -34,12 +37,27 @@ public class Login extends javax.swing.JFrame {
         try {
             Map<String, Object> registro = con.queryForMap(
                     "select * from maquina where idMaquina = ? and senha = ?", id, senha);
+//            Map<String, Object> fkConfig = con.queryForMap(
+//                    "select idConfiguracao from configuracao as c join maquina as m on c.fk_maquina = m.idMaquina where m.idMaquina = ? and m.senha = ?;", id, senha);
+//            fkConfig = con.query("select idConfiguracao from configuracao as c join maquina as m on c.fk_maquina = m.idMaquina where m.idMaquina = ? and m.senha = ?;", 
+//                new BeanPropertyRowMapper(Captura.class), id, senha);
             System.out.println("Login realizado com sucesso.");
             return true;
         } catch (EmptyResultDataAccessException e) {
             return false;
         }
     }
+    
+    public Integer retornarId (String id, String senha){
+        Conexao conexao = new Conexao();
+        JdbcTemplate con = conexao.getConnection();
+        
+        return con.queryForObject("select idConfiguracao from configuracao as c join maquina as m on c.fk_maquina = m.idMaquina where m.idMaquina = ? and m.senha = ?", Integer.class, id, senha);
+    }
+    
+//    public Integer fkConfig(Credenciais c){
+//        return con.queryForObject("select idConfiguracao from configuracao as c join maquina as m on c.fk_maquina = m.idMaquina where m.idMaquina = ? and m.senha = ?;", c.getId(), c.getSenha());
+//    }
 
     public void nextScreen() {
         PosLogin tela = new PosLogin();
@@ -162,12 +180,14 @@ public class Login extends javax.swing.JFrame {
         if (selectLogin(email, senha)) {
             nextScreen();
             captura.mostrarInfoSistema();
+            comp.inserirComponente();
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    captura.mostrarDados();
+//                    captura.mostrar();
+//                    captura.inserirNoBanco(retornarId(email, senha));
                 }
-            }, 0, 5000);
+            }, 0, 10000);
 
         }else{
             lblErro.setText("Credenciais incorretas.");

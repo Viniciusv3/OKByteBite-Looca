@@ -1,23 +1,22 @@
 package jar.bytebite;
 
 import com.github.britooo.looca.api.core.Looca;
-import com.github.britooo.looca.api.group.discos.Disco;
 import com.github.britooo.looca.api.group.discos.DiscoGrupo;
-import com.github.britooo.looca.api.group.janelas.JanelaGrupo;
 import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.group.temperatura.Temperatura;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
  * @author ViniciusJesus
  */
 public class Captura {
-
+    Conexao conexao = new Conexao();
+    JdbcTemplate con = conexao.getConnection();
     Looca looca = new Looca();
     Sistema sistema = looca.getSistema();
     Memoria memoria = looca.getMemoria();
@@ -25,8 +24,14 @@ public class Captura {
     DiscoGrupo discoGrupo = looca.getGrupoDeDiscos();
     Temperatura temperatura = looca.getTemperatura();
     double scale = Math.pow(10, 2);
+    
+    //Data 
+    Date dataHoraAtual = new Date();
+    String data = new SimpleDateFormat("dd/MM/yyyy").format(dataHoraAtual);
+    String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
+    
 
-    public void mostrarDados() {
+//    public void mostrarDados() {
         //        Processador
         Double porcUsoCpu = cpu.getUso();
 
@@ -45,8 +50,8 @@ public class Captura {
         double ramEmUso = Math.round(memoriaEmUsoBites * scale) / scale;
 
         Double ramTotalSemFormatar = Double.valueOf(looca.getMemoria().getTotal());
-        ramTotalSemFormatar = ramTotalSemFormatar / 1073141824.00;
-        Double ramTotal = Math.round(ramTotalSemFormatar * scale) / scale;
+        Double ramTotalSemFormatado = ramTotalSemFormatar / 1073141824.00;
+        Double ramTotal = Math.round(ramTotalSemFormatado * scale) / scale;
 
 //        Janelas
         Integer janelasTotal = looca.getGrupoDeJanelas().getTotalJanelas();
@@ -62,23 +67,49 @@ public class Captura {
 //        Double armazenamentoEmUsoBites = aEmUso / (1024*1024*1024);
 //        double armazenamentoEmUso = Math.round(armazenamentoEmUsoBites*scale)/scale;
         Double armazenamentoEmUsoSemFormatar = Double.valueOf(discoGrupo.getDiscos().get(0).getBytesDeLeitura());
-        armazenamentoEmUsoSemFormatar = armazenamentoEmUsoSemFormatar / 1000000000.00;
-        Double armazenamentoEmUso = Math.round(armazenamentoEmUsoSemFormatar * scale) / scale;
+        Double armazenamentoEmUsoSemFormatado = armazenamentoEmUsoSemFormatar / 1000000000.00;
+        Double armazenamentoEmUso = Math.round(armazenamentoEmUsoSemFormatado * scale) / scale;
 
-        System.out.println("Processador Uso:");
-        System.out.println(porcUsoCpu);
-        System.out.println("Temperatura processador:");
-        System.out.println(temperaturaCpu);
-        System.out.println("Memória RAM total/disponivel/uso:");
-        System.out.println(ramTotal);
-        System.out.println(ramDisponivel);
-        System.out.println(ramEmUso);
-        System.out.println("Total janelas:");
-        System.out.println(janelasTotal);
-        System.out.println("Armazenamento total/emUso");
-        System.out.println(armazenamentoTotal);
-        System.out.println(armazenamentoEmUso);
-    }
+//        System.out.println("Processador Uso:");
+//        System.out.println(porcUsoCpu);
+//        System.out.println("Temperatura processador:");
+//        System.out.println(temperaturaCpu);
+//        System.out.println("Memória RAM total/disponivel/uso:");
+//        System.out.println(ramTotal);
+//        System.out.println(ramDisponivel);
+//        System.out.println(ramEmUso);
+//        System.out.println("Total janelas:");
+//        System.out.println(janelasTotal);
+//        System.out.println("Armazenamento total/emUso");
+//        System.out.println(armazenamentoTotal);
+//        System.out.println(armazenamentoEmUso);
+//    }
+        
+        public void mostrar(){
+            System.out.println(looca.getGrupoDeDiscos().getDiscos().get(0).getBytesDeEscritas());
+        }
+        
+        public void inserirNoBanco(Integer fkConfig){
+            try{
+                con.update("insert into log_captura values(?, ?, ?, ?);",
+                        data, hora, porcUsoCpu, fkConfig);
+                con.update("insert into log_captura values(?, ?, ?, ?);",
+                        data, hora, temperaturaCpu, fkConfig);
+                System.out.println("Inseriu no banco os dados da CPU");
+                con.update("insert into log_captura values(?, ?, ?, ?);",
+                        data, hora, ramEmUso, fkConfig);
+                System.out.println("Inseriu no banco os dados da mamória ram");
+                con.update("insert into log_captura values(?, ?, ?, ?);",
+                        data, hora, janelasTotal, fkConfig);
+                System.out.println("Inseriu no banco os dados das janelas");
+                con.update("insert into log_captura values(?, ?, ?, ?);",
+                        data, hora, armazenamentoEmUso, fkConfig);
+                System.out.println("Inseriu no banco os dados do armazenamento");
+        
+        }catch(Exception e){
+            System.out.println("Erro ao inserir dados da Cpu");
+        }
+        }
 
     public void mostrarInfoSistema() {
 
