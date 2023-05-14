@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package jar.bytebite;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -27,17 +28,17 @@ public class Conexao {
 //            System.out.println("Ocorreu um erro ao acessar o banco : " + ex.getMessage());
 //        }
 //    }
+
     private JdbcTemplate connection;
-    
+
     public Conexao() {
-        
+
         BasicDataSource dataSource = new BasicDataSource();
 
         dataSource​.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-        dataSource​.setUrl("jdbc:sqlserver://server-bytebite.database.windows.net:1433;database=bd-bytebite;encryp\n" +
-"t=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
-
+        dataSource​.setUrl("jdbc:sqlserver://server-bytebite.database.windows.net:1433;database=bd-bytebite;encryp\n"
+                + "t=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
 
         dataSource​.setUsername("admin-bytebite");
 

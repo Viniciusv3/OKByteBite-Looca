@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author ViniciusJesus
  */
 public class Captura {
+
     Conexao conexao = new Conexao();
     JdbcTemplate con = conexao.getConnection();
     Looca looca = new Looca();
@@ -24,51 +25,49 @@ public class Captura {
     DiscoGrupo discoGrupo = looca.getGrupoDeDiscos();
     Temperatura temperatura = looca.getTemperatura();
     double scale = Math.pow(10, 2);
-    
-    //Data 
-    Date dataHoraAtual = new Date();
-    String data = new SimpleDateFormat("dd/MM/yyyy").format(dataHoraAtual);
-    String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
-    
 
 //    public void mostrarDados() {
-        //        Processador
-        Double porcUsoCpu = cpu.getUso();
+    //        Processador
+    Double porcUsoCpu = cpu.getUso();
+    Long LongCpu = looca.getProcessador().getFrequencia();
+    double c = LongCpu.doubleValue();
+    Double cpuBites = c / 1000000000;
+    double totalCpu = Math.round(cpuBites * scale) / scale;
 
 //        Double temperaturaCpu = temperatura.getTemperatura();
-        Double temperaturaCpu = (Math.random() * 20) + 45;
+    Double temperaturaCpu = (Math.random() * 20) + 45;
 
 //        Memória Ram
-        Long longMemoriaD = memoria.getDisponivel();
-        double d = longMemoriaD.doubleValue();
-        Double memoriaDisponivelBites = d / (1024 * 1024 * 1024);
-        double ramDisponivel = Math.round(memoriaDisponivelBites * scale) / scale;
+    Long longMemoriaD = memoria.getDisponivel();
+    double d = longMemoriaD.doubleValue();
+    Double memoriaDisponivelBites = d / (1024 * 1024 * 1024);
+    double ramDisponivel = Math.round(memoriaDisponivelBites * scale) / scale;
 
-        Long longMemoriaU = memoria.getEmUso();
-        double u = longMemoriaU.doubleValue();
-        Double memoriaEmUsoBites = u / (1024 * 1024 * 1024);
-        double ramEmUso = Math.round(memoriaEmUsoBites * scale) / scale;
+    Long longMemoriaU = memoria.getEmUso();
+    double u = longMemoriaU.doubleValue();
+    Double memoriaEmUsoBites = u / (1024 * 1024 * 1024);
+    double ramEmUso = Math.round(memoriaEmUsoBites * scale) / scale;
 
-        Double ramTotalSemFormatar = Double.valueOf(looca.getMemoria().getTotal());
-        Double ramTotalSemFormatado = ramTotalSemFormatar / 1073141824.00;
-        Double ramTotal = Math.round(ramTotalSemFormatado * scale) / scale;
+    Double ramTotalSemFormatar = Double.valueOf(looca.getMemoria().getTotal());
+    Double ramTotalSemFormatado = ramTotalSemFormatar / 1073141824.00;
+    Double ramTotal = Math.round(ramTotalSemFormatado * scale) / scale;
 
 //        Janelas
-        Integer janelasTotal = looca.getGrupoDeJanelas().getTotalJanelas();
+    Integer janelasTotal = looca.getGrupoDeJanelas().getTotalJanelas();
 
 //        Armazenamento
-        Long longArmazenamento = discoGrupo.getTamanhoTotal();
-        double a = longArmazenamento.doubleValue();
-        Double armazenamentoBites = a / (1024 * 1024 * 1024);
-        double armazenamentoTotal = Math.round(armazenamentoBites * scale) / scale;
+    Long longArmazenamento = discoGrupo.getTamanhoTotal();
+    double a = longArmazenamento.doubleValue();
+    Double armazenamentoBites = a / (1024 * 1024 * 1024);
+    double armazenamentoTotal = Math.round(armazenamentoBites * scale) / scale;
 
 //        Long longArmazenamentoEmUso = discoGrupo.getDiscos().get(0).getBytesDeLeitura();
 //        double aEmUso = longArmazenamentoEmUso.doubleValue();
 //        Double armazenamentoEmUsoBites = aEmUso / (1024*1024*1024);
 //        double armazenamentoEmUso = Math.round(armazenamentoEmUsoBites*scale)/scale;
-        Double armazenamentoEmUsoSemFormatar = Double.valueOf(discoGrupo.getDiscos().get(0).getBytesDeLeitura());
-        Double armazenamentoEmUsoSemFormatado = armazenamentoEmUsoSemFormatar / 1000000000.00;
-        Double armazenamentoEmUso = Math.round(armazenamentoEmUsoSemFormatado * scale) / scale;
+    Double armazenamentoEmUsoSemFormatar = Double.valueOf(discoGrupo.getDiscos().get(0).getBytesDeLeitura());
+    Double armazenamentoEmUsoSemFormatado = armazenamentoEmUsoSemFormatar / 1000000000.00;
+    Double armazenamentoEmUso = Math.round(armazenamentoEmUsoSemFormatado * scale) / scale;
 
 //        System.out.println("Processador Uso:");
 //        System.out.println(porcUsoCpu);
@@ -84,36 +83,50 @@ public class Captura {
 //        System.out.println(armazenamentoTotal);
 //        System.out.println(armazenamentoEmUso);
 //    }
-        
-        public void mostrar(){
-            System.out.println(looca.getGrupoDeDiscos().getDiscos().get(0).getBytesDeEscritas());
+//        public void mostrar(){
+//            System.out.println(looca.getGrupoDeDiscos().getDiscos().get(0).getBytesDeEscritas());
+//        }
+    public Integer retornarFkConfigCpu(String id, String senha) {
+        return con.queryForObject("select idConfiguracao from configuracao as c join maquina as m on c.fk_maquina = m.idMaquina join componente as comp on c.fk_componente = comp.idComponente where m.idMaquina = ? and m.senha = ? and comp.total = ?; ", Integer.class, id, senha, totalCpu);
+    }
+
+    public Integer retornarFkConfigRam(String id, String senha) {
+        return con.queryForObject("select idConfiguracao from configuracao as c join maquina as m on c.fk_maquina = m.idMaquina join componente as comp on c.fk_componente = comp.idComponente where m.idMaquina = ? and m.senha = ? and comp.total = ?; ", Integer.class, id, senha, ramTotal);
+    }
+
+    public Integer retornarFkConfigArmazenamento(String id, String senha) {
+        return con.queryForObject("select idConfiguracao from configuracao as c join maquina as m on c.fk_maquina = m.idMaquina join componente as comp on c.fk_componente = comp.idComponente where m.idMaquina = ? and m.senha = ? and comp.total = ?; ", Integer.class, id, senha, armazenamentoTotal);
+    }
+
+    public void inserirNoBanco(String id, String senha, String data, String hora) {
+        try {
+            con.update("insert into log_captura values(?, ?, ?, ?, ?);",
+                    data, hora, porcUsoCpu, retornarFkConfigCpu(id, senha), 1);
+            con.update("insert into log_captura values(?, ?, ?, ?, ?);",
+                    data, hora, temperaturaCpu, retornarFkConfigCpu(id, senha), 2);
+            System.out.println("Inseriu no banco os dados da CPU");
+            con.update("insert into log_captura values(?, ?, ?, ?, ?);",
+                    data, hora, ramEmUso, retornarFkConfigRam(id, senha), 1);
+            System.out.println("Inseriu no banco os dados da mamória ram");
+//            con.update("insert into log_captura values(?, ?, ?, ?);",
+//                    data, hora, janelasTotal, retornaxxx);
+//            System.out.println("Inseriu no banco os dados das janelas");
+            con.update("insert into log_captura values(?, ?, ?, ?, ?);",
+                    data, hora, armazenamentoEmUso, retornarFkConfigArmazenamento(id, senha), 1);
+            System.out.println("Inseriu no banco os dados do armazenamento");
+
+        } catch (Exception e) {
+            System.out.println("Erro ao inserir dados.");
         }
-        
-        public void inserirNoBanco(Integer fkConfig){
-            try{
-                con.update("insert into log_captura values(?, ?, ?, ?);",
-                        data, hora, porcUsoCpu, fkConfig);
-                con.update("insert into log_captura values(?, ?, ?, ?);",
-                        data, hora, temperaturaCpu, fkConfig);
-                System.out.println("Inseriu no banco os dados da CPU");
-                con.update("insert into log_captura values(?, ?, ?, ?);",
-                        data, hora, ramEmUso, fkConfig);
-                System.out.println("Inseriu no banco os dados da mamória ram");
-                con.update("insert into log_captura values(?, ?, ?, ?);",
-                        data, hora, janelasTotal, fkConfig);
-                System.out.println("Inseriu no banco os dados das janelas");
-                con.update("insert into log_captura values(?, ?, ?, ?);",
-                        data, hora, armazenamentoEmUso, fkConfig);
-                System.out.println("Inseriu no banco os dados do armazenamento");
-        
-        }catch(Exception e){
-            System.out.println("Erro ao inserir dados da Cpu");
-        }
-        }
+    }
+
+    public void mostrar() {
+//        System.out.println(totalCpu);
+    }
 
     public void mostrarInfoSistema() {
 
         System.out.println(sistema.toString());
     }
-    
+
 }

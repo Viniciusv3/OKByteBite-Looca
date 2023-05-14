@@ -1,6 +1,8 @@
 package jar.bytebite;
 
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -37,27 +39,12 @@ public class Login extends javax.swing.JFrame {
         try {
             Map<String, Object> registro = con.queryForMap(
                     "select * from maquina where idMaquina = ? and senha = ?", id, senha);
-//            Map<String, Object> fkConfig = con.queryForMap(
-//                    "select idConfiguracao from configuracao as c join maquina as m on c.fk_maquina = m.idMaquina where m.idMaquina = ? and m.senha = ?;", id, senha);
-//            fkConfig = con.query("select idConfiguracao from configuracao as c join maquina as m on c.fk_maquina = m.idMaquina where m.idMaquina = ? and m.senha = ?;", 
-//                new BeanPropertyRowMapper(Captura.class), id, senha);
             System.out.println("Login realizado com sucesso.");
             return true;
         } catch (EmptyResultDataAccessException e) {
             return false;
         }
     }
-    
-    public Integer retornarId (String id, String senha){
-        Conexao conexao = new Conexao();
-        JdbcTemplate con = conexao.getConnection();
-        
-        return con.queryForObject("select idConfiguracao from configuracao as c join maquina as m on c.fk_maquina = m.idMaquina where m.idMaquina = ? and m.senha = ?", Integer.class, id, senha);
-    }
-    
-//    public Integer fkConfig(Credenciais c){
-//        return con.queryForObject("select idConfiguracao from configuracao as c join maquina as m on c.fk_maquina = m.idMaquina where m.idMaquina = ? and m.senha = ?;", c.getId(), c.getSenha());
-//    }
 
     public void nextScreen() {
         PosLogin tela = new PosLogin();
@@ -175,21 +162,27 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String email = jTextField1.getText();
+        String id = jTextField1.getText();
         String senha = jTextField2.getText();
-        if (selectLogin(email, senha)) {
+        if (selectLogin(id, senha)) {
             nextScreen();
-            captura.mostrarInfoSistema();
+//            captura.mostrarInfoSistema();
             comp.inserirComponente();
+            comp.inserirConfiguracao(id);
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
+                    //Data 
+                    Date dataHoraAtual = new Date();
+                    String data = new SimpleDateFormat("dd/MM/yyyy").format(dataHoraAtual);
+                    String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
 //                    captura.mostrar();
-//                    captura.inserirNoBanco(retornarId(email, senha));
+//                    comp.mostrar();
+                    captura.inserirNoBanco(id, senha, data, hora);
                 }
             }, 0, 10000);
 
-        }else{
+        } else {
             lblErro.setText("Credenciais incorretas.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed

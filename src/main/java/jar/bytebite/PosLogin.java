@@ -12,7 +12,9 @@ import java.awt.Color;
  * @author ViniciusJesus
  */
 public class PosLogin extends javax.swing.JFrame {
+
     Looca looca = new Looca();
+
     /**
      * Creates new form TelaExemplo
      */
@@ -20,8 +22,8 @@ public class PosLogin extends javax.swing.JFrame {
         initComponents();
         getContentPane().setBackground(Color.gray);
     }
-    
-    public void especificacoes(){
+
+    public void especificacoes() {
         lblSO.setText(looca.getSistema().getSistemaOperacional());
         lblArquitetura.setText(looca.getSistema().getArquitetura().toString());
         lblFabricante.setText(looca.getSistema().getFabricante());
