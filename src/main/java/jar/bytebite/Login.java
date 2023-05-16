@@ -166,7 +166,7 @@ public class Login extends javax.swing.JFrame {
         String senha = jTextField2.getText();
         if (selectLogin(id, senha)) {
             nextScreen();
-//            captura.mostrarInfoSistema();
+            captura.mostrarInfoSistema();
             comp.inserirComponente();
             comp.inserirConfiguracao(id);
             new Timer().scheduleAtFixedRate(new TimerTask() {

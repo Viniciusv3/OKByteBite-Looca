@@ -6,8 +6,6 @@ import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.group.temperatura.Temperatura;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
@@ -34,19 +32,11 @@ public class Captura {
     Double cpuBites = c / 1000000000;
     double totalCpu = Math.round(cpuBites * scale) / scale;
 
-//        Double temperaturaCpu = temperatura.getTemperatura();
-    Double temperaturaCpu = (Math.random() * 20) + 45;
-
 //        Memória Ram
     Long longMemoriaD = memoria.getDisponivel();
     double d = longMemoriaD.doubleValue();
     Double memoriaDisponivelBites = d / (1024 * 1024 * 1024);
     double ramDisponivel = Math.round(memoriaDisponivelBites * scale) / scale;
-
-    Long longMemoriaU = memoria.getEmUso();
-    double u = longMemoriaU.doubleValue();
-    Double memoriaEmUsoBites = u / (1024 * 1024 * 1024);
-    double ramEmUso = Math.round(memoriaEmUsoBites * scale) / scale;
 
     Double ramTotalSemFormatar = Double.valueOf(looca.getMemoria().getTotal());
     Double ramTotalSemFormatado = ramTotalSemFormatar / 1073141824.00;
@@ -65,10 +55,6 @@ public class Captura {
 //        double aEmUso = longArmazenamentoEmUso.doubleValue();
 //        Double armazenamentoEmUsoBites = aEmUso / (1024*1024*1024);
 //        double armazenamentoEmUso = Math.round(armazenamentoEmUsoBites*scale)/scale;
-    Double armazenamentoEmUsoSemFormatar = Double.valueOf(discoGrupo.getDiscos().get(0).getBytesDeLeitura());
-    Double armazenamentoEmUsoSemFormatado = armazenamentoEmUsoSemFormatar / 1000000000.00;
-    Double armazenamentoEmUso = Math.round(armazenamentoEmUsoSemFormatado * scale) / scale;
-
 //        System.out.println("Processador Uso:");
 //        System.out.println(porcUsoCpu);
 //        System.out.println("Temperatura processador:");
@@ -99,6 +85,19 @@ public class Captura {
     }
 
     public void inserirNoBanco(String id, String senha, String data, String hora) {
+        //CPU
+        Double porcUsoCpu = cpu.getUso();
+        Double temperaturaCpu = (Math.random() * 20) + 45;
+        //Memória ram
+        Long longMemoriaU = memoria.getEmUso();
+        double u = longMemoriaU.doubleValue();
+        Double memoriaEmUsoBites = u / (1024 * 1024 * 1024);
+        double ramEmUso = Math.round(memoriaEmUsoBites * scale) / scale;
+        //Armazenamento 
+        Double armazenamentoEmUsoSemFormatar = Double.valueOf(discoGrupo.getDiscos().get(0).getBytesDeLeitura());
+        Double armazenamentoEmUsoSemFormatado = armazenamentoEmUsoSemFormatar / 1000000000.00;
+        Double armazenamentoEmUso = Math.round(armazenamentoEmUsoSemFormatado * scale) / scale;
+        
         try {
             con.update("insert into log_captura values(?, ?, ?, ?, ?);",
                     data, hora, porcUsoCpu, retornarFkConfigCpu(id, senha), 1);
