@@ -55,6 +55,11 @@ public class Login extends javax.swing.JFrame {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String dataFormatada = dateFormat.format(date);
 
+        Path path1 = Paths.get("C:/Logs-ByteBite/");
+        if (!Files.exists(path1)) {
+            Files.createDirectory(path1);
+        }
+
         Path path = Paths.get("C:/Logs-ByteBite/Login/");
         if (!Files.exists(path)) {
             Files.createDirectory(path);

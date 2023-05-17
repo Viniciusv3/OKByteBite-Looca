@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
@@ -28,9 +27,7 @@ public class LogGeral {
     Captura captura = new Captura();
     Looca looca = new Looca();
 
-    Date date = new Date();
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-    String dataFormatada = dateFormat.format(date);
+    public LocalDateTime dataAtual = LocalDateTime.now();
     public Double ramTotal = componente.ramTotal;
     public Double ramDisponivel = captura.ramDisponivel;
     public Double armazenamentoTotal = componente.armazenamentoTotal;
@@ -40,10 +37,9 @@ public class LogGeral {
     public String fabricante = looca.getSistema().getFabricante();
     public Integer arquitetura = looca.getSistema().getArquitetura();
     public Integer janelas = looca.getGrupoDeJanelas().getTotalJanelas();
-    public Temperatura temperatura = looca.getTemperatura();
+    public Temperatura temperatura = captura.temperatura;
     public String sistemaOperacional = looca.getSistema().getSistemaOperacional();
-//    Path path = Paths.get("C:/Logs-ByteBite/");
-    Path path = Paths.get("C:/Logs-ByteBite/Geral/");
+    Path path = Paths.get("C:/Logs-ByteBite/");
 
     public void genereteInfos() throws IOException {
 
@@ -56,7 +52,7 @@ public class LogGeral {
                 + "\nRAM DISPONÍVEL                            >>" + ramDisponivel + " GB"
                 + "\nCPU TOTAL                                 >>" + totalCpu + " GHz"
                 + "\nCPU EM USO                                >>" + porcUsoCpu + " GHz"
-                + "\nTEMPERATURA DA CPU                        >>" + temperatura + " C°"
+//                + "\nTEMPERATURA DA CPU                        >>" + temperatura + " C°" >> captura retorna 0.0
                 + "\nARMAZENAMENTO TOTAL                       >>" + armazenamentoTotal + "GB"
                 + "\nARMAZENAMENTO EM USO                      >>" + armazenamentoUso + " GB"
                 + "\nJANELAS ABERTAS                           >> " + janelas + " U";
@@ -65,7 +61,7 @@ public class LogGeral {
             Files.createDirectory(path);
         }
 
-        File log = new File(String.format("C:/Logs-ByteBite/Geral/%s.txt", dataFormatada));
+        File log = new File("C:/Logs-ByteBite/Histórico de acesso.txt");
 
         if (!log.exists()) {
             log.createNewFile();
@@ -82,14 +78,14 @@ public class LogGeral {
     public void genereteErroLogin() throws IOException {
 
         String mensagem = "--------------------------------------------------------------\n"
-                + "Data da captura :" + date
+                + "Data da captura :" + dataAtual
                 + "\nFalha >> Login preenchido incorretamente";
 
 //        Path path = Paths.get("C:/Logs-ByteBite/");
         if (!Files.exists(path)) {
             Files.createDirectory(path);
         }
-        File log = new File(String.format("C:/Logs-ByteBite/Geral/%s.txt", dataFormatada));
+        File log = new File("C:/Logs-ByteBite/Histórico de acesso.txt");
         if (!log.exists()) {
             log.createNewFile();
         }
@@ -105,15 +101,14 @@ public class LogGeral {
     public void genereteLoginSucesso() throws IOException {
 
         String mensagem = "--------------------------------------------------------------\n"
-                + "Data da captura :" + date
+                + "Data da captura :" + dataAtual
                 + "\nSucesso >> Login realizado com sucesso!";
 
 //        Path path = Paths.get("C:/Logs-ByteBite/");
         if (!Files.exists(path)) {
             Files.createDirectory(path);
         }
-        File log = new File(String.format("C:/Logs-ByteBite/Geral/%s.txt", dataFormatada));
-
+        File log = new File("C:/Logs-ByteBite/Histórico de acesso.txt");
         if (!log.exists()) {
             log.createNewFile();
         }

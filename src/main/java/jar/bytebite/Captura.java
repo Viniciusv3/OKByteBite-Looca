@@ -89,8 +89,13 @@ public class Captura {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String dataFormatada = dateFormat.format(date);
-        
-         Path path = Paths.get("C:/Logs-ByteBite/Capturas/");
+
+        Path path1 = Paths.get("C:/Logs-ByteBite/");
+        if (!Files.exists(path1)) {
+            Files.createDirectory(path1);
+        }
+
+        Path path = Paths.get("C:/Logs-ByteBite/Capturas/");
         if (!Files.exists(path)) {
             Files.createDirectory(path);
         }
