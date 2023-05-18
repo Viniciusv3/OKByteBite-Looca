@@ -13,10 +13,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 public class Componente {
 
-//    Conexao conexao = new Conexao();
+    Conexao conexao = new Conexao();
     ConexaoMySQL ConexaoMySQL = new ConexaoMySQL();
     
-//    JdbcTemplate con = conexao.getConnection();
+    JdbcTemplate con = conexao.getConnection();
     JdbcTemplate conMySQL = ConexaoMySQL.getConnectionMySQL();
     
     Looca looca = new Looca();
@@ -37,30 +37,30 @@ public class Componente {
     double totalCpu = Math.round(cpuBites * scale) / scale;
 
     public void inserirComponente() {
-//        try {
-//            con.update("insert into componente values(?, ?, ?);",
-//                    totalCpu, "GHz", 1);
-//            System.out.println("Inseriu um novo componente do tipo 'Cpu'.");
-//
-//        } catch (Exception e) {
-//            System.out.println("Componente do tipo 'Cpu' já existente.");
-//        }
-//        try {
-//            con.update("insert into componente values(?, ?, ?);",
-//                    ramTotal, "GB", 2);
-//            System.out.println("Inseriu um novo componente do tipo 'Memória ram'.");
-//
-//        } catch (Exception e) {
-//            System.out.println("Componente do tipo 'Memória ram' já existente.");
-//        }
-//        try {
-//            con.update("insert into componente values(?, ?, ?);",
-//                    armazenamentoTotal, "GB", 3);
-//            System.out.println("Inseriu um novo componente do tipo 'Armazenamento'.");
-//
-//        } catch (Exception e) {
-//            System.out.println("Componente do tipo 'Armazenamento' já existente.");
-//        }
+        try {
+            con.update("insert into componente values(?, ?, ?);",
+                    totalCpu, "GHz", 1);
+            System.out.println("Inseriu um novo componente do tipo 'Cpu'.");
+
+        } catch (Exception e) {
+            System.out.println("Componente do tipo 'Cpu' já existente.");
+        }
+        try {
+            con.update("insert into componente values(?, ?, ?);",
+                    ramTotal, "GB", 2);
+            System.out.println("Inseriu um novo componente do tipo 'Memória ram'.");
+
+        } catch (Exception e) {
+            System.out.println("Componente do tipo 'Memória ram' já existente.");
+        }
+        try {
+            con.update("insert into componente values(?, ?, ?);",
+                    armazenamentoTotal, "GB", 3);
+            System.out.println("Inseriu um novo componente do tipo 'Armazenamento'.");
+
+        } catch (Exception e) {
+            System.out.println("Componente do tipo 'Armazenamento' já existente.");
+        }
         //MYSQL
         try {
             conMySQL.update("insert into componente (total, unidadeMedida, fk_tipo_componente) values(?, ?, ?);",
@@ -91,17 +91,17 @@ public class Componente {
         }
     }
 
-//    public Integer FkComponenteParaConfigCpu() {
-//        return con.queryForObject("select idComponente from componente where total = ?;", Integer.class, totalCpu);
-//    }
-//
-//    public Integer FkComponenteParaConfigRam() {
-//        return con.queryForObject("select idComponente from componente where total = ?;", Integer.class, ramTotal);
-//    }
-//
-//    public Integer FkComponenteParaConfigArmazenamento() {
-//        return con.queryForObject("select idComponente from componente where total = ?;", Integer.class, armazenamentoTotal);
-//    }
+    public Integer FkComponenteParaConfigCpu() {
+        return con.queryForObject("select idComponente from componente where total = ?;", Integer.class, totalCpu);
+    }
+
+    public Integer FkComponenteParaConfigRam() {
+        return con.queryForObject("select idComponente from componente where total = ?;", Integer.class, ramTotal);
+    }
+
+    public Integer FkComponenteParaConfigArmazenamento() {
+        return con.queryForObject("select idComponente from componente where total = ?;", Integer.class, armazenamentoTotal);
+    }
     
     public Integer FkComponenteParaConfigCpuMySQL() {
         return conMySQL.queryForObject("select idComponente from componente where total = ?;", Integer.class, totalCpu);
@@ -124,13 +124,13 @@ public class Componente {
         try {
             
             
-//            con.update("insert into configuracao values (?, ?);",
-//                    id, FkComponenteParaConfigCpu());
-//            con.update("insert into configuracao values (?, ?);",
-//                    id, FkComponenteParaConfigRam());
-//            con.update("insert into configuracao values (?, ?);",
-//                    id, FkComponenteParaConfigArmazenamento());
-//            System.out.println("Deu Certo a inserção de configuração");
+            con.update("insert into configuracao values (?, ?);",
+                    id, FkComponenteParaConfigCpu());
+            con.update("insert into configuracao values (?, ?);",
+                    id, FkComponenteParaConfigRam());
+            con.update("insert into configuracao values (?, ?);",
+                    id, FkComponenteParaConfigArmazenamento());
+            System.out.println("Deu Certo a inserção de configuração");
             
            
 

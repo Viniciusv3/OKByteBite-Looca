@@ -21,11 +21,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
  */
 public class Login extends javax.swing.JFrame {
 
-//    Conexao conexao = new Conexao();
-    ConexaoMySQL ConexaoMySQL = new ConexaoMySQL();
+    Conexao conexao = new Conexao();
+//    ConexaoMySQL ConexaoMySQL = new ConexaoMySQL();
 
-//    JdbcTemplate con = conexao.getConnection();
-    JdbcTemplate conMySQL = ConexaoMySQL.getConnectionMySQL();
+    JdbcTemplate con = conexao.getConnection();
+//    JdbcTemplate conMySQL = ConexaoMySQL.getConnectionMySQL();
 
     Captura captura = new Captura();
     Integer fkConfig;
@@ -41,7 +41,7 @@ public class Login extends javax.swing.JFrame {
 
     public Boolean selectLogin(String id, String senha) {
         try {
-            Map<String, Object> registro = conMySQL.queryForMap(
+            Map<String, Object> registro = con.queryForMap(
                     "select * from maquina where idMaquina = ? and senha = ?", id, senha);
             System.out.println("Login realizado com sucesso.");
             return true;
@@ -172,7 +172,7 @@ public class Login extends javax.swing.JFrame {
             nextScreen();
 //            captura.mostrarInfoSistema();
             comp.inserirComponente();
-            if (comp.ConsultarConfig(id) == 0) {
+            if (comp.ConsultarConfig(id) < 3) {
                 comp.inserirConfiguracao(id);
             }
             new Timer().scheduleAtFixedRate(new TimerTask() {
@@ -185,6 +185,7 @@ public class Login extends javax.swing.JFrame {
 //                    captura.mostrar();
 //                    comp.mostrar();
                     captura.inserirNoBanco(id, senha, data, hora);
+                    captura.inserirNoBancoMySQL(id, senha, data, hora);
                 }
             }, 0, 10000);
 
