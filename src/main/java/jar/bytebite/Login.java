@@ -1,27 +1,15 @@
 package jar.bytebite;
 
 import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.FileHandler;
-import java.util.logging.Formatter;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.dao.EmptyResultDataAccessException;
-import java.util.logging.Logger;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -33,12 +21,15 @@ import java.util.logging.Logger;
  */
 public class Login extends javax.swing.JFrame {
 
-    Conexao conexao = new Conexao();
-    JdbcTemplate con = conexao.getConnection();
-    public Captura captura = new Captura();
+//    Conexao conexao = new Conexao();
+    ConexaoMySQL ConexaoMySQL = new ConexaoMySQL();
+
+//    JdbcTemplate con = conexao.getConnection();
+    JdbcTemplate conMySQL = ConexaoMySQL.getConnectionMySQL();
+
+    Captura captura = new Captura();
     Integer fkConfig;
-    public Componente comp = new Componente();
-    LogGeral log = new LogGeral();
+    Componente comp = new Componente();
 
     /**
      * Creates new form Login
@@ -48,57 +39,11 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setBackground(Color.gray);
     }
 
-    private static final Logger logger = Logger.getLogger(Login.class.getName());
-
-    public static void logFormatacao() throws IOException {
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String dataFormatada = dateFormat.format(date);
-
-        Path path1 = Paths.get("C:/Logs-ByteBite/");
-        if (!Files.exists(path1)) {
-            Files.createDirectory(path1);
-        }
-
-        Path path = Paths.get("C:/Logs-ByteBite/Login/");
-        if (!Files.exists(path)) {
-            Files.createDirectory(path);
-        }
+    public Boolean selectLogin(String id, String senha) {
         try {
-            FileHandler fileHandler = new FileHandler(String.format("C:/Logs-ByteBite/Login/%s.txt", dataFormatada));
-            fileHandler.setFormatter(new Formatter() {
-                private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd >> HH:mm:ss");
-
-                public String format(LogRecord record) {
-
-                    StringBuilder builder = new StringBuilder();
-                    builder.append(dateFormat.format(new Date())).append(" ");
-                    builder.append(record.getLevel()).append(": ");
-                    builder.append(record.getMessage()).append(" (");
-                    builder.append(record.getSourceClassName()).append(".");
-                    builder.append(record.getSourceMethodName()).append(")");
-                    builder.append(System.lineSeparator());
-                    return builder.toString();
-                }
-            }
-            );
-            logger.addHandler(fileHandler);
-            logger.setLevel(Level.ALL);
-        } catch (Exception e) {
-            e.printStackTrace(); // ou qualquer outro tratamento de erro desejado
-
-        }
-    }
-
-    public Boolean selectLogin(String id, String senha) throws IOException {
-        try {
-            Map<String, Object> registro = con.queryForMap(
+            Map<String, Object> registro = conMySQL.queryForMap(
                     "select * from maquina where idMaquina = ? and senha = ?", id, senha);
             System.out.println("Login realizado com sucesso.");
-            logger.info("Login realizado com sucesso.");
-            logger.info("Os dados foram gerados no arquivo de logs gerais.");
-            log.genereteLoginSucesso();
-            log.genereteInfos();
             return true;
         } catch (EmptyResultDataAccessException e) {
             return false;
@@ -223,43 +168,35 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String id = jTextField1.getText();
         String senha = jTextField2.getText();
-        try {
-            if (selectLogin(id, senha)) {
-                nextScreen();
-                captura.mostrarInfoSistema();
-                comp.inserirComponente();
+        if (selectLogin(id, senha)) {
+            nextScreen();
+//            captura.mostrarInfoSistema();
+            comp.inserirComponente();
+            if (comp.ConsultarConfig(id) == 0) {
                 comp.inserirConfiguracao(id);
-                new Timer().scheduleAtFixedRate(new TimerTask() {
-                    @Override
-                    public void run() {
-                        //Data
-                        Date dataHoraAtual = new Date();
-                        String data = new SimpleDateFormat("dd/MM/yyyy").format(dataHoraAtual);
-                        String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
+            }
+            new Timer().scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    //Data 
+                    Date dataHoraAtual = new Date();
+                    String data = new SimpleDateFormat("dd/MM/yyyy").format(dataHoraAtual);
+                    String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
 //                    captura.mostrar();
 //                    comp.mostrar();
-                        captura.inserirNoBanco(id, senha, data, hora);
-                    }
-                }, 0, 10000);
+                    captura.inserirNoBanco(id, senha, data, hora);
+                }
+            }, 0, 10000);
 
-            } else {
-                lblErro.setText("Credenciais incorretas.");
-                log.genereteErroLogin();
-                logger.severe("Houve tentativa de login com credenciais incorretas.");
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            lblErro.setText("Credenciais incorretas.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
-     * @throws java.io.IOException
      */
-    public static void main(String args[]) throws IOException {
-        logFormatacao();
-        Componente.logFormatacao();
-        Captura.logFormatacao();
+    public static void main(String args[]) {
 
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
